@@ -131,7 +131,8 @@
             }
           });
           renderComments();
-          preloadText.style.display = 'none';
+          console.log('End GET');
+          preloadText.classList.add('hide');
         });
       });
   };
@@ -228,6 +229,9 @@
       });
     confirmButton.disabled = true;
     confirmButton.textContent = "Комментарий добавляется";
+    preloadText.classList.remove('hide');
+    elementList.classList.add('hide');
+    console.log('Start POST');
     commentPromise.then((response) => {
       response.json().then((responseData) => {
         comments = responseData.todos;
@@ -235,8 +239,11 @@
     }).then((response) => {
       return fetchAndRenderTasks();
     }).then(() => {
+      console.log('End POST');
       confirmButton.disabled = false;
       confirmButton.textContent = "Написать";
+      preloadText.classList.add('hide');
+      elementList.classList.remove('hide');
     })
 
     if (userName.value !== '' && userComment.value !== '') {
