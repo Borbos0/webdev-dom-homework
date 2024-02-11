@@ -131,7 +131,6 @@
             }
           });
           renderComments();
-          console.log('End GET');
           preloadText.classList.add('hide');
         });
       });
@@ -225,32 +224,42 @@
         body: JSON.stringify({
           text: userComment.value,
           name: userName.value,
+          forceError: true,
         }),
       });
-    confirmButton.disabled = true;
-    confirmButton.textContent = "Комментарий добавляется";
-    preloadText.classList.remove('hide');
-    elementList.classList.add('hide');
-    console.log('Start POST');
     commentPromise.then((response) => {
+      confirmButton.disabled = true;
+      confirmButton.textContent = "Комментарий добавляется";
+      if (response.status === 400) {
+        alert("Слишком короткое имя пользователя или комментария");
+        throw new Error("Bad request 400");
+      }
+      if (response.status === 500) {
+        alert("Попробуйте через какое-то время");
+        throw new Error("Internal Server Error 500");
+      }
+      preloadText.classList.remove('hide');
+      elementList.classList.add('hide');
       response.json().then((responseData) => {
         comments = responseData.todos;
       });
     }).then((response) => {
       return fetchAndRenderTasks();
     }).then(() => {
-      console.log('End POST');
       confirmButton.disabled = false;
       confirmButton.textContent = "Написать";
       preloadText.classList.add('hide');
       elementList.classList.remove('hide');
+      if (userName.value !== '' && userComment.value !== '') {
+        userName.value = '';
+        userComment.value = '';
+        return;
+      }
     })
-
-    if (userName.value !== '' && userComment.value !== '') {
-      userName.value = '';
-      userComment.value = '';
-      return;
-    }
+      .catch((error) => {
+        confirmButton.disabled = false;
+        confirmButton.textContent = "Написать";
+      });
 
   });
 
