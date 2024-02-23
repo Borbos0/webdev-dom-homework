@@ -1,4 +1,4 @@
-import { dat, initGet, initPost, renderComments } from "./modules.js";
+import { dat, initGet, initPost, renderComments } from "./api.js";
 
 let userName = document.getElementById("add-form-name");
 const confirmButton = document.getElementById("add-form-button");
@@ -22,7 +22,7 @@ const fetchAndRenderTasks = () => {
         renderComments(comments);
         preloadText.classList.add('hide');
     }).catch((error) => {
-        if (error != null) {
+        if (error != null && error != "TypeError: Failed to fetch") {
             return alert(error);
         }
         return alert("У вас отсутствует интернет");
@@ -72,9 +72,10 @@ confirmButton.addEventListener("click", () => {
     }).catch((error) => {
         confirmButton.disabled = false;
         confirmButton.textContent = "Написать";
+        if (error == "TypeError: Failed to fetch") {
+            return alert("У вас отсутствует интернет");
+        }
         return alert(error);
-    }).finally((error) => {
-        return alert("У вас отсутствует интернет");
     });
 
 });
