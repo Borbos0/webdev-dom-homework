@@ -1,4 +1,5 @@
-import { dat, initGet, initPost, renderComments } from "./api.js";
+import { dat, initGet, initPost } from "./api.js";
+import { renderComments } from "./render.js";
 
 let userName = document.getElementById("add-form-name");
 const confirmButton = document.getElementById("add-form-button");
@@ -46,14 +47,18 @@ confirmButton.addEventListener("click", () => {
     initPost().then((response) => {
         confirmButton.disabled = true;
         confirmButton.textContent = "Комментарий добавляется";
+        preloadText.classList.remove('hide');
+        elementList.classList.add('hide');
         if (response.status === 400) {
+            preloadText.classList.add('hide');
+            elementList.classList.remove('hide');
             throw new Error("Слишком короткое имя пользователя или комментария");
         }
         if (response.status === 500) {
+            preloadText.classList.add('hide');
+            elementList.classList.remove('hide');
             throw new Error("Попробуйте через какое-то время");
         }
-        preloadText.classList.remove('hide');
-        elementList.classList.add('hide');
         response.json().then((responseData) => {
             comments = responseData.todos;
         });
