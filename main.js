@@ -1,12 +1,21 @@
-import { dat, initGet, initPost } from "./api.js";
+import { initGet, initPost } from "./api.js";
 import { renderComments } from "./render.js";
+import { renderAuthorizationPage, renderAuthorizationButton } from "./renderLogin.js";
+import { dat } from "./helpers.js";
 
 let userName = document.getElementById("add-form-name");
 const confirmButton = document.getElementById("add-form-button");
 let userComment = document.getElementById("add-form-text");
-const elementList = document.getElementById("list");
+// По стилю искать
+const elementList = document.querySelector("#list");
 const preloadText = document.getElementById('preload');
-let comments = []
+let comments = [];
+// Что-то для авторизации
+let users = [];
+const authorizationButton = document.getElementById("authorization-button");
+const authorizationText = document.getElementById("authorization-text");
+const authorizationBlock = document.getElementById("registration");
+
 
 
 const fetchAndRenderTasks = () => {
@@ -20,7 +29,7 @@ const fetchAndRenderTasks = () => {
                 isLike: comment.isLiked
             }
         });
-        renderComments(comments);
+        renderComments(comments, null);
         preloadText.classList.add('hide');
     }).catch((error) => {
         if (error != null && error != "TypeError: Failed to fetch") {
@@ -31,7 +40,37 @@ const fetchAndRenderTasks = () => {
 };
 
 fetchAndRenderTasks();
-
+// Окно авторизация
+authorizationButton.addEventListener("click", () => {
+    renderAuthorizationPage();
+    renderAuthorizationButton(comments);
+    authorizationText.classList.add("hide");
+});
+// Кнопка "Войти" в авторизации
+// authorizationButtonIn.addEventListener("click", () => {
+//     authorizationLogin.classList.backgroundColor = "";
+//     authorizationPassword.classList.backgroundColor = "";
+//     if (authorizationLogin.value === '') {
+//         authorizationLogin.classList.backgroundColor = "red";
+//         return;
+//     }
+//     if (authorizationPassword.value === '') {
+//         authorizationPassword.classList.backgroundColor = "red";
+//         return;
+//     }
+//     initGetAuth(authorizationLogin.value, authorizationPassword.value).then((responseData) => {
+//         users = responseData.users.map((users) => {
+//             return {
+//                 login: users.login
+//             }
+//         });
+//         // renderComments(comments);
+//     }).catch((error) => {
+//         console.log(error);
+//         return alert("Какие-то проблемы");
+//     });
+// });
+// Добавление комментария
 confirmButton.addEventListener("click", () => {
     userName.style.backgroundColor = "";
     userComment.style.backgroundColor = "";
@@ -43,7 +82,6 @@ confirmButton.addEventListener("click", () => {
         userComment.style.backgroundColor = "red";
         return;
     }
-
     initPost().then((response) => {
         confirmButton.disabled = true;
         confirmButton.textContent = "Комментарий добавляется";

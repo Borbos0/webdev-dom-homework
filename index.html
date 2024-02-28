@@ -13,8 +13,19 @@
     <ul class="comments" id="list">
       <!-- Рендереться через JS modules.js -->
     </ul>
-    <div class="add-form">
-      <input type="text" class="add-form-name" placeholder="Введите ваше имя" id="add-form-name" />
+    <div id="authorization-text">
+      <p>Что бы добавить комментарий, <a href="#" id="authorization-button">авторизируйтесь</a></p>
+    </div>
+    <!-- <div class="comment">
+      <div class="registration">
+        <h2>Форма входа</h2>
+        <input type="text" id="add-login" placeholder="Введите логин">
+        <input type="password" id="add-password" placeholder="Введите пароль">
+        <button id="authorization-button-in">Войти</button>
+      </div>
+    </div> -->
+    <div class="add-form hide">
+      <input type="text" class="add-form-name" disabled id="add-form-name" />
       <textarea type="textarea" class="add-form-text" placeholder="Введите ваш коментарий" rows="4"
         id="add-form-text"></textarea>
       <div class="add-form-row">
@@ -25,10 +36,5 @@
 
 </body>
 <script type="module" src="main.js"></script>
-
-</html>
-<script>
-
-</script>
 
 </html>
