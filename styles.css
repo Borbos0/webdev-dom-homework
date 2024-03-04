@@ -135,6 +135,27 @@ body {
   .add-form-button:hover {
     opacity: 0.9;
   }
+  .registration {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .registration input {
+    height: 45px;
+    border: none;
+    border-radius: 15px;
+    padding: 5px 15px;
+    font-size: 18px;
+  }
+  .registration button {
+    height: 40px;
+    background: #bcec30;
+    border-radius: 15px;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+  }
   .hide {
     display: none;
   }
