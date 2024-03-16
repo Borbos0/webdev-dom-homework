@@ -4,7 +4,8 @@ import {
 	renderAuthorizationPage,
 	renderAuthorizationButton,
 } from "./renderLogin.js";
-import { dat } from "./helpers.js";
+// import { dat } from "./helpers.js";
+import { format } from 'date-fns'
 
 let userName = document.getElementById("add-form-name");
 const confirmButton = document.getElementById("add-form-button");
@@ -25,7 +26,7 @@ const fetchAndRenderTasks = () => {
 			comments = responseData.comments.map((comment) => {
 				return {
 					name: comment.author.name,
-					commentDate: dat(comment.date),
+					commentDate: format(new Date(comment.date), "yyyy-MM-dd hh.mm.ss"),
 					commentUser: comment.text,
 					like: comment.likes,
 					isLike: comment.isLiked,
