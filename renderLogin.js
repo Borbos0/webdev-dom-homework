@@ -1,5 +1,5 @@
 import { initEventListeners, renderComments } from "./render.js";
-import { initPostAuth, setToken, token } from "./api.js";
+import { initPostAuth, setToken } from "./api.js";
 const elementList = document.getElementById("list");
 
 // Кнопка "Войти" в авторизации
